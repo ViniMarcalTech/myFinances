@@ -1,5 +1,6 @@
 package com.myfinances.myfinances.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -21,12 +22,13 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
-
-    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Expense> expenses = new ArrayList<>();;
 
-    @OneToMany(targetEntity = Income.class,cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    @OneToMany(targetEntity = Income.class,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Income> incomes = new ArrayList<>();
 

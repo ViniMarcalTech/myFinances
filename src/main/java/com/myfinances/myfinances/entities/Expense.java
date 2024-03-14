@@ -26,7 +26,7 @@ public class Expense implements Serializable {
     @OneToOne
     @JoinColumn(name = "payment_method_fk")
     private PaymentMethod paymentMethod;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "expenses_tag",
             joinColumns = @JoinColumn(name = "expense_id"),

@@ -2,6 +2,7 @@ package com.myfinances.myfinances.config;
 
 import com.myfinances.myfinances.entities.*;
 import com.myfinances.myfinances.repositories.*;
+import com.myfinances.myfinances.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,6 @@ import java.util.Arrays;
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
     @Autowired
-    UserRepository userRepository;
-    @Autowired
     TagRepository tagRepository;
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
@@ -25,13 +24,20 @@ public class TestConfig implements CommandLineRunner {
     ExpenseRepository expenseRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    UserService userService;
 
 
     @Override
     public void run(String... args) throws Exception {
 
-        User user1 = new User(null,"Marcos Vinicius","vinicius@gmail.com","9 9 9999 9999", "Abacate");
-        User user2 = new User(null,"Maria Chica","maria@gmail.com","9 9 9999 9949", "Luvas");
+        User user1 = new User(null,"Marcos Vinicius","vinicius@gmail.com","9 9 9394 9299", "SenhaAbsurd4");
+        User user2 = new User(null,"Maria Chica","maria@gmail.com","9 9 9299 9949", "Chaves123");
+        User user3 = new User(null,"Maria Chica","maria@gmail.com","9 9 9299 9949", "Chaves123");
+
+        userService.insert(user1);
+        userService.insert(user2);
+        userService.insert(user3);
 
 
         Category cat1 = new Category(null,"Alimentação", "Gastos com Alimentação");
@@ -40,9 +46,9 @@ public class TestConfig implements CommandLineRunner {
 
 
         Tag tag1 = new Tag(null,"Restaurante da Tia");
+        Tag tag2 = new Tag(null,"Gasolina");
         Tag tag3 = new Tag(null,"Restaurante do cleber");
         Tag tag4 = new Tag(null,"Não usei essa tag");
-        Tag tag2 = new Tag(null,"Gasolina");
 
         PaymentMethod pay1 = new PaymentMethod(null,"Cartão de Credito");
         PaymentMethod pay2 = new PaymentMethod(null,"Dinheiro");
@@ -50,11 +56,12 @@ public class TestConfig implements CommandLineRunner {
         Expense expense1 = new Expense(null,user1,cat1,pay1,45.3,Instant.parse("2024-06-20T21:53:07Z"));
         Expense expense2 = new Expense(null,user1,cat2,pay2,70.3,Instant.parse("2024-06-20T21:53:07Z"));
         expense1.getTags().add(tag1);
-        expense1.getTags().add(tag3);
         expense2.getTags().add(tag2);
+        expense1.getTags().add(tag3);
         Income income = new Income(null,user2,cat3,1500.5,Instant.parse("2024-06-20T21:53:07Z"));
 
-        userRepository.saveAll(Arrays.asList(user1,user2));
+
+
         categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
         paymentMethodRepository.saveAll(Arrays.asList(pay1,pay2));
         tagRepository.saveAll(Arrays.asList(tag1,tag2,tag3,tag4));
@@ -65,8 +72,12 @@ public class TestConfig implements CommandLineRunner {
         user1.getExpenses().add(expense2);
         user2.getIncomes().add(income);
 
-        userRepository.save(user1);
-        userRepository.save(user2);
+        userService.update(user1);
+        userService.update(user2);
+
+
+
+
 
 
 
