@@ -26,7 +26,11 @@ public class Expense implements Serializable {
     @OneToOne
     @JoinColumn(name = "payment_method_fk")
     private PaymentMethod paymentMethod;
-    @OneToMany(targetEntity = Tag.class,cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name = "expenses_tag",
+            joinColumns = @JoinColumn(name = "expense_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();
     private Double amount;
     private Instant date;

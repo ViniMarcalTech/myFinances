@@ -22,11 +22,11 @@ public class User implements Serializable {
     private String password;
 
 
-    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Expense> expenses = new ArrayList<>();;
 
-    @OneToMany(targetEntity = Income.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Income.class,cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Income> incomes = new ArrayList<>();
 
