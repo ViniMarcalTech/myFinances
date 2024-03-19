@@ -1,7 +1,7 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.Category;
-import com.myfinances.myfinances.services.CategoryService;
+import com.myfinances.myfinances.entities.PaymentMethod;
+import com.myfinances.myfinances.services.PaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,32 +12,31 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/category")
-public class CategoryController {
-
+@RequestMapping("/api/paymentmethod")
+public class PaymentMethodController {
 
     @Autowired
-    CategoryService service;
+    PaymentMethodService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> list = service.findAll();
+    public ResponseEntity<List<PaymentMethod>> findAll() {
+        List<PaymentMethod> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id) {
+    public ResponseEntity<PaymentMethod> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Category> insert(@RequestBody Category category) {
+    public ResponseEntity<PaymentMethod> insert(@RequestBody PaymentMethod payment) {
 
-        service.insert(category);
+        service.insert(payment);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(category.getId()).toUri();
+                .buildAndExpand(payment.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(category);
+        return ResponseEntity.created(uri).body(payment);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -47,10 +46,10 @@ public class CategoryController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
-        category.setId(id);
-        category = service.update(category);
-        return ResponseEntity.ok().body(category);
+    public ResponseEntity<PaymentMethod> update(@PathVariable Long id, @RequestBody PaymentMethod payment) {
+        payment.setId(id);
+        payment = service.update(payment);
+        return ResponseEntity.ok().body(payment);
     }
 
 }
