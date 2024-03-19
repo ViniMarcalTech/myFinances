@@ -23,7 +23,7 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore
-    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Expense> expenses = new ArrayList<>();;
 

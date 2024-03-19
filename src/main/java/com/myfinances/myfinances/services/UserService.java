@@ -3,8 +3,6 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.entities.User;
 import com.myfinances.myfinances.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class UserService {
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new RuntimeException("Usuario com o id: " + id + " Não encontrado");
+            throw new IllegalArgumentException("Usuario com o ID: " + id + " Não encontrado");
         }
         User user = obj.get();
         return user;

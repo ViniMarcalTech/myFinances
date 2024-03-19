@@ -21,7 +21,7 @@ public class Income implements Serializable {
     @JoinColumn(name = "user_fk")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_fk")
     private Category category;
     private Double amount;

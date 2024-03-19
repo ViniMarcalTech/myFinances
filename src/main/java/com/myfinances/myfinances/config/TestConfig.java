@@ -3,10 +3,7 @@ package com.myfinances.myfinances.config;
 import com.myfinances.myfinances.entities.*;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
 import com.myfinances.myfinances.repositories.IncomeRepository;
-import com.myfinances.myfinances.services.CategoryService;
-import com.myfinances.myfinances.services.PaymentMethodService;
-import com.myfinances.myfinances.services.TagService;
-import com.myfinances.myfinances.services.UserService;
+import com.myfinances.myfinances.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +20,7 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     PaymentMethodService paymentMethodService;
     @Autowired
-    IncomeRepository incomeRepository;
+    IncomeService incomeRepository;
     @Autowired
     ExpenseRepository expenseRepository;
     @Autowired
@@ -62,7 +59,7 @@ public class TestConfig implements CommandLineRunner {
         expense1.getTags().add(tag1);
         expense2.getTags().add(tag2);
         expense1.getTags().add(tag3);
-        Income income = new Income(null, user2, cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
+        Income income = new Income(null, null, null, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
 
 
         categoryRepository.insertAll(Arrays.asList(cat1, cat2, cat3));
@@ -70,7 +67,7 @@ public class TestConfig implements CommandLineRunner {
         paymentMethodService.insert(pay2);
         tagRepository.insertAll(Arrays.asList(tag1, tag2, tag3, tag4));
         expenseRepository.saveAll(Arrays.asList(expense1, expense2));
-        incomeRepository.save(income);
+        incomeRepository.insert(income, 2l, 3l);
 
         user1.getExpenses().add(expense1);
         user1.getExpenses().add(expense2);

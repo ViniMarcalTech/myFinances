@@ -22,7 +22,7 @@ public class TagService {
     public Tag findById(Long id) {
         Optional<Tag> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new RuntimeException("Tag com o id: " + id + " Não encontrado");
+            throw new IllegalArgumentException("Tag com o id: " + id + " Não encontrado");
         }
         Tag tag = obj.get();
         return tag;
@@ -34,7 +34,7 @@ public class TagService {
         return repository.save(tag);
     }
 
-    public void  insertAll(List<Tag> tags){
+    public void insertAll(List<Tag> tags) {
         repository.saveAll(tags);
     }
 

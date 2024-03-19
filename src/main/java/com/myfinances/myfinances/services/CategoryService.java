@@ -23,7 +23,7 @@ public class CategoryService {
     public Category findById(Long id) {
         Optional<Category> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new RuntimeException("Category com o id: " + id + " Não encontrado");
+            throw new NullPointerException("Category com o id: " + id + " Não encontrado");
         }
         Category category = obj.get();
         return category;
