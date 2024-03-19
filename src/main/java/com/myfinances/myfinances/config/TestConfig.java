@@ -2,6 +2,8 @@ package com.myfinances.myfinances.config;
 
 import com.myfinances.myfinances.entities.*;
 import com.myfinances.myfinances.repositories.*;
+import com.myfinances.myfinances.services.CategoryService;
+import com.myfinances.myfinances.services.TagService;
 import com.myfinances.myfinances.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +17,7 @@ import java.util.Arrays;
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
     @Autowired
-    TagRepository tagRepository;
+    TagService tagRepository;
     @Autowired
     PaymentMethodRepository paymentMethodRepository;
     @Autowired
@@ -23,7 +25,7 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     ExpenseRepository expenseRepository;
     @Autowired
-    CategoryRepository categoryRepository;
+    CategoryService categoryRepository;
     @Autowired
     UserService userService;
 
@@ -62,9 +64,9 @@ public class TestConfig implements CommandLineRunner {
 
 
 
-        categoryRepository.saveAll(Arrays.asList(cat1,cat2,cat3));
+        categoryRepository.insertAll(Arrays.asList(cat1,cat2,cat3));
         paymentMethodRepository.saveAll(Arrays.asList(pay1,pay2));
-        tagRepository.saveAll(Arrays.asList(tag1,tag2,tag3,tag4));
+        tagRepository.insertAll(Arrays.asList(tag1,tag2,tag3,tag4));
         expenseRepository.saveAll(Arrays.asList(expense1,expense2));
         incomeRepository.save(income);
 

@@ -1,7 +1,7 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.Tag;
-import com.myfinances.myfinances.services.TagService;
+import com.myfinances.myfinances.entities.Category;
+import com.myfinances.myfinances.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,31 +12,33 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/tag")
-public class TagController {
+@RequestMapping("/api/category")
+public class CategoryController {
+
+
 
     @Autowired
-    TagService service;
+    CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Tag>> findAll() {
-        List<Tag> list = service.findAll();
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Tag> findById(@PathVariable Long id) {
+    public ResponseEntity<Category> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Tag> insert(@RequestBody Tag tag) {
+    public ResponseEntity<Category> insert(@RequestBody Category category) {
 
-        service.insert(tag);
+        service.insert(category);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(tag.getId()).toUri();
+                .buildAndExpand(category.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(tag);
+        return ResponseEntity.created(uri).body(category);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -46,10 +48,10 @@ public class TagController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Tag> update(@PathVariable Long id, @RequestBody Tag tag) {
-        tag.setId(id);
-        tag = service.update(tag);
-        return ResponseEntity.ok().body(tag);
+    public ResponseEntity<Category> update(@PathVariable Long id, @RequestBody Category category) {
+        category.setId(id);
+        category = service.update(category);
+        return ResponseEntity.ok().body(category);
     }
 
 }

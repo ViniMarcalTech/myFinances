@@ -39,7 +39,7 @@ public class Expense implements Serializable {
     }
 
     public Expense(Long id, User user, Category category, PaymentMethod paymentMethod, Double amount, Instant date) {
-        this.id = id;
+        this.id  = id;
         this.user = user;
         this.category = category;
         this.paymentMethod = paymentMethod;

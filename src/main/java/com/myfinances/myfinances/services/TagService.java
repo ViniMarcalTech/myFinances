@@ -1,2 +1,55 @@
-package com.myfinances.myfinances.services;public class TagService {
+package com.myfinances.myfinances.services;
+
+import com.myfinances.myfinances.entities.Tag;
+import com.myfinances.myfinances.repositories.TagRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class TagService {
+    @Autowired
+    TagRepository repository;
+
+
+    public List<Tag> findAll() {
+
+        return repository.findAll();
+    }
+
+    public Tag findById(Long id) {
+        Optional<Tag> obj = repository.findById(id);
+        if (obj.isEmpty()) {
+            throw new RuntimeException("Tag com o id: " + id + " Não encontrado");
+        }
+        Tag tag = obj.get();
+        return tag;
+    }
+
+
+    public Tag insert(Tag tag) {
+
+        return repository.save(tag);
+    }
+
+    public void  insertAll(List<Tag> tags){
+        repository.saveAll(tags);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+
+    }
+
+    public Tag update(Tag tag) {
+        if (repository.findById(tag.getId()).get() == null) {
+            throw new IllegalArgumentException("Tag não existe");
+        }
+        ;
+        return repository.save(tag);
+    }
+
+
 }
