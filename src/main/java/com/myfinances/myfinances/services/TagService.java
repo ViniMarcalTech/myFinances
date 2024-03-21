@@ -34,9 +34,6 @@ public class TagService {
         return repository.save(tag);
     }
 
-    public void insertAll(List<Tag> tags) {
-        repository.saveAll(tags);
-    }
 
     public void delete(Long id) {
         repository.deleteById(id);

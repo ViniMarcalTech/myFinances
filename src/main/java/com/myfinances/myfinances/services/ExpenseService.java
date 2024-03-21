@@ -1,6 +1,7 @@
 package com.myfinances.myfinances.services;
 
 import com.myfinances.myfinances.entities.Expense;
+import com.myfinances.myfinances.entities.User;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,4 +114,6 @@ public class ExpenseService {
 
 
     }
+
+
 }

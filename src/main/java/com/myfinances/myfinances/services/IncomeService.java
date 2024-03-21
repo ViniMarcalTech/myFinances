@@ -37,7 +37,6 @@ public class IncomeService {
 
         income = validateIncome(income);
 
-        System.out.println("Teste aqui");
 
         return repository.save(income);
     }
@@ -54,10 +53,6 @@ public class IncomeService {
         income = validateIncome(income);
         return repository.save(income);
     }
-
-
-
-
 
 
     private Income validateIncome(Income income) {

@@ -8,15 +8,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
     @Autowired
-    TagService tagRepository;
+    TagService tagService;
     @Autowired
     PaymentMethodService paymentMethodService;
     @Autowired
@@ -24,7 +22,7 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     ExpenseService expenseService;
     @Autowired
-    CategoryService categoryRepository;
+    CategoryService categoryService;
     @Autowired
     UserService userService;
 
@@ -46,35 +44,40 @@ public class TestConfig implements CommandLineRunner {
         Category cat3 = new Category(null, "Salario", "Dinheiro recebido");
 
 
+        categoryService.insert(cat1);
+        categoryService.insert(cat2);
+        categoryService.insert(cat3);
+
+
         Tag tag1 = new Tag(null, "Restaurante da Tia");
         Tag tag2 = new Tag(null, "Gasolina");
         Tag tag3 = new Tag(null, "Restaurante do cleber");
         Tag tag4 = new Tag(null, "Não usei essa tag");
 
+        tagService.insert(tag1);
+        tagService.insert(tag2);
+        tagService.insert(tag3);
+        tagService.insert(tag4);
+
+
         PaymentMethod pay1 = new PaymentMethod(null, "Cartão de Credito");
         PaymentMethod pay2 = new PaymentMethod(null, "Dinheiro");
 
-        Expense expense1 = new Expense(null, user1, cat2, pay1, 45.3, Instant.parse("2024-06-20T21:53:07Z"));
-        Expense expense2 = new Expense(null, user2,cat1, pay2, 70.3, Instant.parse("2024-06-20T21:53:07Z"));
-        Income income = new Income(null, user3, cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
-        expense1.getTags().addAll(Arrays.asList(tag1,tag2));
-        expense2.getTags().add(tag2);
-
-        categoryRepository.insertAll(Arrays.asList(cat1, cat2, cat3));
         paymentMethodService.insert(pay1);
         paymentMethodService.insert(pay2);
-        tagRepository.insertAll(Arrays.asList(tag1, tag2, tag3, tag4));
 
-//        expenseService.insert(expense1);
-//        expenseService.insert(expense2);
-//        incomeRepository.insert(income);
 
-//        user1.getExpenses().add(expense1);
-//        user1.getExpenses().add(expense2);
-//        user2.getIncomes().add(income);
-//
-//        userService.update(user1);
-//        userService.update(user2);
+        Expense expense1 = new Expense(null, user1, cat2, pay1, 45.3, Instant.parse("2024-06-20T21:53:07Z"));
+        Expense expense2 = new Expense(null, user2, cat1, pay2, 70.3, Instant.parse("2024-06-20T21:53:07Z"));
+        expense1.getTags().addAll(Arrays.asList(tag1, tag2));
+        expense2.getTags().add(tag2);
+
+        expenseService.insert(expense1);
+        expenseService.insert(expense2);
+
+
+        Income income = new Income(null, user3, cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
+        incomeRepository.insert(income);
 
 
     }

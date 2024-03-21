@@ -22,19 +22,19 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
-    @JsonIgnore
-    @OneToMany(targetEntity = Expense.class,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")
-    private List<Expense> expenses = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(targetEntity = Income.class,
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_fk", referencedColumnName = "id")
-    private List<Income> incomes = new ArrayList<>();
+//    @JsonIgnore
+//    @OneToMany(targetEntity = Expense.class,
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_fk", referencedColumnName = "id")
+//    private List<Expense> expenses = new ArrayList<>();
+//
+//    @JsonIgnore
+//    @OneToMany(targetEntity = Income.class,
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_fk", referencedColumnName = "id")
+//    private List<Income> incomes = new ArrayList<>();
 
 
     public User() {
@@ -56,13 +56,13 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public List<Expense> getExpenses() {
-        return expenses;
-    }
+//    public List<Expense> getExpenses() {
+//        return expenses;
+//    }
 
-    public List<Income> getIncomes() {
-        return incomes;
-    }
+//    public List<Income> getIncomes() {
+//        return incomes;
+//    }
 
     public String getName() {
         return name;
