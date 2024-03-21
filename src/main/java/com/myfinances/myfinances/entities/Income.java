@@ -1,7 +1,6 @@
 package com.myfinances.myfinances.entities;
 
 
-
 import jakarta.persistence.*;
 
 import java.io.Serializable;

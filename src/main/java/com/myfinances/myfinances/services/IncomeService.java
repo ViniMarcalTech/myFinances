@@ -33,9 +33,12 @@ public class IncomeService {
     }
 
 
-    public Income insert(Income income, Long userID, Long categoryID) {
-        income.setUser(userService.findById(userID));
-        income.setCategory(categoryService.findById(categoryID));
+    public Income insert(Income income) {
+
+        income = validateIncome(income);
+
+        System.out.println("Teste aqui");
+
         return repository.save(income);
     }
 
@@ -44,13 +47,43 @@ public class IncomeService {
         repository.deleteById(id);
     }
 
-    public Income update(Income income, Long userID, Long categoryID) {
+    public Income update(Income income) {
         if (repository.findById(income.getId()).get() == null) {
             throw new IllegalArgumentException("Income não existe");
         }
-        income.setUser(userService.findById(userID));
-        income.setCategory(categoryService.findById(categoryID));
+        income = validateIncome(income);
         return repository.save(income);
+    }
+
+
+
+
+
+
+    private Income validateIncome(Income income) {
+        income = validateCategory(income);
+        income = validateUser(income);
+        return income;
+
+    }
+
+    private Income validateUser(Income income) {
+        if (income.getUser().getId() == null) {
+            throw new IllegalArgumentException("Categoria não existe! ");
+        } else {
+            income.setUser(userService.findById(income.getUser().getId()));
+        }
+        return income;
+
+    }
+
+    private Income validateCategory(Income income) {
+        if (income.getCategory().getId() == null) {
+            throw new IllegalArgumentException("Categoria não existe! ");
+        } else {
+            income.setCategory(categoryService.findById(income.getCategory().getId()));
+        }
+        return income;
     }
 
 

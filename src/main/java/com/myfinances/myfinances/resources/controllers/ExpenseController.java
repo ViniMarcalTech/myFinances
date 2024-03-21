@@ -1,7 +1,7 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.Income;
-import com.myfinances.myfinances.services.IncomeService;
+import com.myfinances.myfinances.entities.Expense;
+import com.myfinances.myfinances.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,32 +12,32 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
-@RequestMapping("/api/income")
-public class IncomeController {
+@RequestMapping("/api/expense")
+public class ExpenseController {
 
     @Autowired
-    IncomeService service;
+    ExpenseService service;
 
     @GetMapping
-    public ResponseEntity<List<Income>> findAll() {
-        List<Income> list = service.findAll();
+    public ResponseEntity<List<Expense>> findAll() {
+        List<Expense> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Income> findById(@PathVariable Long id) {
+    public ResponseEntity<Expense> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 
 
     @PostMapping
-    public ResponseEntity<Income> insert(@RequestBody Income income) {
+    public ResponseEntity<Expense> insert(@RequestBody Expense expense) {
 
-        service.insert(income);
+        service.insert(expense);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .buildAndExpand(income.getId()).toUri();
-        return ResponseEntity.created(uri).body(income);
+                .buildAndExpand(expense.getId()).toUri();
+        return ResponseEntity.created(uri).body(expense);
     }
 
     @DeleteMapping(value = "/{id}")
@@ -47,10 +47,11 @@ public class IncomeController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Income> update(@RequestBody Income income, @PathVariable Long id) {
-        income.setId(id);
-        income = service.update(income);
-        return ResponseEntity.ok().body(income);
+    public ResponseEntity<Expense> update(@RequestBody Expense expense, @PathVariable Long id) {
+
+        expense.setId(id);
+        expense = service.update(expense);
+        return ResponseEntity.ok().body(expense);
     }
 
 }

@@ -20,10 +20,10 @@ public class Expense implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_fk")
     private User user;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_fk")
     private Category category;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "payment_method_fk")
     private PaymentMethod paymentMethod;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -39,7 +39,7 @@ public class Expense implements Serializable {
     }
 
     public Expense(Long id, User user, Category category, PaymentMethod paymentMethod, Double amount, Instant date) {
-        this.id  = id;
+        this.id = id;
         this.user = user;
         this.category = category;
         this.paymentMethod = paymentMethod;

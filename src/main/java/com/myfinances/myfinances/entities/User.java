@@ -23,12 +23,16 @@ public class User implements Serializable {
     private String password;
 
     @JsonIgnore
-    @OneToMany(targetEntity = Expense.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Expense.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
-    private List<Expense> expenses = new ArrayList<>();;
+    private List<Expense> expenses = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(targetEntity = Income.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Income.class,
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "user_fk", referencedColumnName = "id")
     private List<Income> incomes = new ArrayList<>();
 
