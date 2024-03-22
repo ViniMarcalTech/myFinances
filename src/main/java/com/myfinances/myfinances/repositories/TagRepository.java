@@ -1,6 +1,6 @@
 package com.myfinances.myfinances.repositories;
 
-import com.myfinances.myfinances.entities.Tag;
+import com.myfinances.myfinances.model.entities.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

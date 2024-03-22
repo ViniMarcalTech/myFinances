@@ -1,6 +1,6 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.PaymentMethod;
+import com.myfinances.myfinances.model.entities.PaymentMethod;
 import com.myfinances.myfinances.services.PaymentMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

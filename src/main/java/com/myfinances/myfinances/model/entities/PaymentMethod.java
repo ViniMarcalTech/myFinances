@@ -1,4 +1,4 @@
-package com.myfinances.myfinances.entities;
+package com.myfinances.myfinances.model.entities;
 
 import jakarta.persistence.*;
 
@@ -6,24 +6,22 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tags")
-public class Tag implements Serializable {
+@Table(name = "payment_methods")
+public class PaymentMethod implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tagName;
+    private String paymentName;
 
-    public Tag() {
+    public PaymentMethod() {
     }
 
-    public Tag(Long id, String tagName) {
+    public PaymentMethod(Long id, String paymentName) {
         this.id = id;
-        this.tagName = tagName;
+        this.paymentName = paymentName;
     }
 
     public Long getId() {
@@ -34,20 +32,20 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public String getTagName() {
-        return tagName;
+    public String getPaymentName() {
+        return paymentName;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setPaymentName(String paymentName) {
+        this.paymentName = paymentName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Tag tags = (Tag) o;
-        return Objects.equals(id, tags.id);
+        PaymentMethod that = (PaymentMethod) o;
+        return Objects.equals(id, that.id) && Objects.equals(paymentName, that.paymentName);
     }
 
     @Override

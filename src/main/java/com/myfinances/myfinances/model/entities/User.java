@@ -1,4 +1,4 @@
-package com.myfinances.myfinances.entities;
+package com.myfinances.myfinances.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

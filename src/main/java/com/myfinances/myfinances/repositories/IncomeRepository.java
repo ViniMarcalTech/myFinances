@@ -1,7 +1,6 @@
 package com.myfinances.myfinances.repositories;
 
-import com.myfinances.myfinances.entities.Income;
-import com.myfinances.myfinances.entities.User;
+import com.myfinances.myfinances.model.entities.Income;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

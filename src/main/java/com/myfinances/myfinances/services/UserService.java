@@ -1,6 +1,7 @@
 package com.myfinances.myfinances.services;
 
-import com.myfinances.myfinances.entities.User;
+import com.myfinances.myfinances.model.entities.User;
+import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
 import com.myfinances.myfinances.repositories.IncomeRepository;
 import com.myfinances.myfinances.repositories.UserRepository;
@@ -29,7 +30,7 @@ public class UserService {
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new IllegalArgumentException("Usuario com o ID: " + id + " Não encontrado");
+            throw new ResourceNotFoundException("Usuario com o ID: " + id + " Não encontrado");
         }
         User user = obj.get();
         return user;
@@ -41,7 +42,12 @@ public class UserService {
     }
 
     public void delete(Long id) {
-//       User  user = this.findById(id);
+
+        if (repository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Usuário com id: " + id + " Não encontrado");
+        }
+
+
         expenseRepository.deleteByUser(id);
         incomeRepository.deleteByUser(id);
         repository.deleteById(id);
@@ -49,8 +55,8 @@ public class UserService {
     }
 
     public User update(User user) {
-        if (repository.findById(user.getId()).get() == null) {
-            throw new IllegalArgumentException("Usuario não existe");
+        if (this.findById(user.getId()) == null) {
+            throw new ResourceNotFoundException("Usuario não existe");
         }
         ;
         return repository.save(user);

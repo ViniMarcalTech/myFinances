@@ -1,6 +1,6 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.Category;
+import com.myfinances.myfinances.model.entities.Category;
 import com.myfinances.myfinances.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

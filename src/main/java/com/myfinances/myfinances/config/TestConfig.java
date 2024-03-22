@@ -1,6 +1,6 @@
 package com.myfinances.myfinances.config;
 
-import com.myfinances.myfinances.entities.*;
+import com.myfinances.myfinances.model.entities.*;
 import com.myfinances.myfinances.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

@@ -1,6 +1,7 @@
 package com.myfinances.myfinances.services;
 
-import com.myfinances.myfinances.entities.Tag;
+import com.myfinances.myfinances.model.entities.Tag;
+import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class TagService {
     public Tag findById(Long id) {
         Optional<Tag> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new IllegalArgumentException("Tag com o id: " + id + " Não encontrado");
+            throw new ResourceNotFoundException("Tag com o id: " + id + " Não encontrado");
         }
         Tag tag = obj.get();
         return tag;
@@ -36,15 +37,17 @@ public class TagService {
 
 
     public void delete(Long id) {
+        if (repository.findById(id).isEmpty()) {
+            throw new ResourceNotFoundException("Tag com o id: " + id + " Não encontrado");
+        }
         repository.deleteById(id);
 
     }
 
     public Tag update(Tag tag) {
-        if (repository.findById(tag.getId()).get() == null) {
-            throw new IllegalArgumentException("Tag não existe");
+        if (repository.findById(tag.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("Tag com id: " + tag.getId() + " Não encontrada");
         }
-        ;
         return repository.save(tag);
     }
 

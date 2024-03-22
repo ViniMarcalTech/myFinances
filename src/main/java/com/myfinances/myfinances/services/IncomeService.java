@@ -1,6 +1,7 @@
 package com.myfinances.myfinances.services;
 
-import com.myfinances.myfinances.entities.Income;
+import com.myfinances.myfinances.model.entities.Income;
+import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.IncomeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class IncomeService {
     public Income findById(Long id) {
         Optional<Income> obj = repository.findById(id);
         if (obj.isEmpty()) {
-            throw new NullPointerException("Income com o id: " + id + " Não encontrado");
+            throw new ResourceNotFoundException("Income com o id: " + id + " Não encontrado");
         }
         Income income = obj.get();
         return income;
@@ -34,21 +35,21 @@ public class IncomeService {
 
 
     public Income insert(Income income) {
-
         income = validateIncome(income);
-
-
         return repository.save(income);
     }
 
 
     public void delete(Long id) {
+        if (repository.findById(id).isEmpty()){
+            throw new ResourceNotFoundException("Income com id: " + id + " Não encontrada");
+        }
         repository.deleteById(id);
     }
 
     public Income update(Income income) {
-        if (repository.findById(income.getId()).get() == null) {
-            throw new IllegalArgumentException("Income não existe");
+        if (repository.findById(income.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("Income com id: " + income.getId() + " Não encontrada");
         }
         income = validateIncome(income);
         return repository.save(income);
@@ -56,29 +57,10 @@ public class IncomeService {
 
 
     private Income validateIncome(Income income) {
-        income = validateCategory(income);
-        income = validateUser(income);
+        income.setUser(userService.findById(income.getUser().getId()));
+        income.setCategory(categoryService.findById(income.getCategory().getId()));
         return income;
 
-    }
-
-    private Income validateUser(Income income) {
-        if (income.getUser().getId() == null) {
-            throw new IllegalArgumentException("Categoria não existe! ");
-        } else {
-            income.setUser(userService.findById(income.getUser().getId()));
-        }
-        return income;
-
-    }
-
-    private Income validateCategory(Income income) {
-        if (income.getCategory().getId() == null) {
-            throw new IllegalArgumentException("Categoria não existe! ");
-        } else {
-            income.setCategory(categoryService.findById(income.getCategory().getId()));
-        }
-        return income;
     }
 
 

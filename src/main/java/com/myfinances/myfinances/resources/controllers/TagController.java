@@ -1,6 +1,6 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.entities.Tag;
+import com.myfinances.myfinances.model.entities.Tag;
 import com.myfinances.myfinances.services.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
