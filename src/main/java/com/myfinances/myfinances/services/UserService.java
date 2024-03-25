@@ -5,11 +5,14 @@ import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
 import com.myfinances.myfinances.repositories.IncomeRepository;
 import com.myfinances.myfinances.repositories.UserRepository;
+import com.myfinances.myfinances.shared.UserDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -22,23 +25,32 @@ public class UserService {
 //    IncomeService incomeService;
     IncomeRepository incomeRepository;
 
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
 
-        return repository.findAll();
+        List<User> users = repository.findAll();
+        return users.stream()
+                .map(user -> new ModelMapper().map(user, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public User findById(Long id) {
-        Optional<User> obj = repository.findById(id);
-        if (obj.isEmpty()) {
+    public UserDTO findById(Long id) {
+
+        Optional<User> user = repository.findById(id);
+        if (user.isEmpty()) {
             throw new ResourceNotFoundException("Usuario com o ID: " + id + " Não encontrado");
         }
-        User user = obj.get();
-        return user;
+
+        return new ModelMapper().map(user.get(), UserDTO.class);
     }
 
 
-    public User insert(User user) {
-        return repository.save(user);
+    public UserDTO insert(UserDTO dto) {
+
+        dto.setId(null);
+        User user = repository.save(new ModelMapper().map(dto, User.class));
+        dto.setId(user.getId());
+        return dto;
+
     }
 
     public void delete(Long id) {
@@ -47,19 +59,21 @@ public class UserService {
             throw new ResourceNotFoundException("Usuário com id: " + id + " Não encontrado");
         }
 
-
         expenseRepository.deleteByUser(id);
         incomeRepository.deleteByUser(id);
         repository.deleteById(id);
 
     }
 
-    public User update(User user) {
-        if (this.findById(user.getId()) == null) {
+    public UserDTO update(UserDTO dto) {
+
+        if (repository.findById(dto.getId()).isEmpty()) {
             throw new ResourceNotFoundException("Usuario não existe");
         }
-        ;
-        return repository.save(user);
+
+        repository.save(new ModelMapper().map(dto, User.class));
+        return dto;
+
     }
 
 

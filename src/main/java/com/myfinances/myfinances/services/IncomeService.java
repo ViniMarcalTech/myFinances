@@ -3,6 +3,7 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.model.entities.Income;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.IncomeRepository;
+import com.myfinances.myfinances.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class IncomeService {
     @Autowired
     IncomeRepository repository;
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
     @Autowired
     CategoryService categoryService;
 
@@ -57,7 +58,7 @@ public class IncomeService {
 
 
     private Income validateIncome(Income income) {
-        income.setUser(userService.findById(income.getUser().getId()));
+        income.setUser(userRepository.findById(income.getUser().getId()).get());
         income.setCategory(categoryService.findById(income.getCategory().getId()));
         return income;
 

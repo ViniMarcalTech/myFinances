@@ -3,6 +3,7 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.model.entities.Expense;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
+import com.myfinances.myfinances.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class ExpenseService {
     ExpenseRepository repository;
 
     @Autowired
-    UserService userService;
+    UserRepository userRepository;
     @Autowired
     CategoryService categoryService;
 
@@ -64,7 +65,7 @@ public class ExpenseService {
 
     private Expense validateExpense(Expense expense) {
 
-        expense.setUser(userService.findById(expense.getUser().getId()));
+        expense.setUser(userRepository.findById(expense.getUser().getId()).get());
         expense.setCategory(categoryService.findById(expense.getCategory().getId()));
         expense.setPaymentMethod(paymentService.findById(expense.getPaymentMethod().getId()));
 

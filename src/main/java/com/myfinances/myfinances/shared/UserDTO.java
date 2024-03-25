@@ -1,31 +1,18 @@
-package com.myfinances.myfinances.model.entities;
+package com.myfinances.myfinances.shared;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+public class UserDTO {
 
 
-@Entity
-@Table(name = "users")
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
     private String phone;
     private String password;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(Long id, String name, String email, String phone, String password) {
+    public UserDTO(Long id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -72,4 +59,6 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 }
