@@ -1,6 +1,7 @@
 package com.myfinances.myfinances.resources.controllers;
 
 import com.myfinances.myfinances.model.entities.User;
+import com.myfinances.myfinances.resources.model.UserRequest;
 import com.myfinances.myfinances.resources.model.UserResponse;
 import com.myfinances.myfinances.services.UserService;
 import com.myfinances.myfinances.shared.UserDTO;
@@ -33,13 +34,15 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> insert(@RequestBody UserDTO dto) {
+    public ResponseEntity<UserResponse> insert(@RequestBody UserRequest request) {
 
-        service.insert(dto);
+        ModelMapper mapper = new ModelMapper();
+        UserDTO dto = mapper.map(request, UserDTO.class);
+        dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new ModelMapper().map(dto, UserResponse.class));
+        return ResponseEntity.created(uri).body(mapper.map(dto, UserResponse.class));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -49,9 +52,11 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserDTO dto) {
+    public ResponseEntity<UserResponse> update(@PathVariable Long id, @RequestBody UserRequest request) {
+        ModelMapper mapper = new ModelMapper();
+        UserDTO dto = mapper.map(request,UserDTO.class);
         dto.setId(id);
-        return ResponseEntity.ok().body(new ModelMapper().map(service.update(dto),UserResponse.class));
+        return ResponseEntity.ok().body(mapper.map(service.update(dto),UserResponse.class));
     }
 
 }
