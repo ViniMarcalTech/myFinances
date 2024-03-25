@@ -1,4 +1,4 @@
-package com.myfinances.myfinances.resources.model;
+package com.myfinances.myfinances.resources.model.request;
 
 public class UserRequest {
 

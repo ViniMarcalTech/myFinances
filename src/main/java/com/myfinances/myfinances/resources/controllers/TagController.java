@@ -1,7 +1,11 @@
 package com.myfinances.myfinances.resources.controllers;
 
 import com.myfinances.myfinances.model.entities.Tag;
+import com.myfinances.myfinances.resources.model.request.TagRequest;
+import com.myfinances.myfinances.resources.model.response.TagResponse;
 import com.myfinances.myfinances.services.TagService;
+import com.myfinances.myfinances.shared.TagDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/tag")
@@ -19,24 +24,28 @@ public class TagController {
     TagService service;
 
     @GetMapping
-    public ResponseEntity<List<Tag>> findAll() {
-        List<Tag> list = service.findAll();
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<List<TagResponse>> findAll() {
+        return ResponseEntity.ok().body(service.findAll()
+                .stream()
+                .map(dto -> new ModelMapper().map(dto, TagResponse.class))
+                .collect(Collectors.toList()));
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Tag> findById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(service.findById(id));
+    public ResponseEntity<TagResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok().body(new ModelMapper().map(service.findById(id), TagResponse.class));
     }
 
     @PostMapping
-    public ResponseEntity<Tag> insert(@RequestBody Tag tag) {
+    public ResponseEntity<TagResponse> insert(@RequestBody TagRequest request) {
 
-        service.insert(tag);
+        ModelMapper mapper = new ModelMapper();
+        TagDTO dto = service.insert(mapper.map(request, TagDTO.class));
+
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(tag.getId()).toUri();
+                .buildAndExpand(dto.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(tag);
+        return ResponseEntity.created(uri).body(mapper.map(dto, TagResponse.class));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -46,10 +55,10 @@ public class TagController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Tag> update(@PathVariable Long id, @RequestBody Tag tag) {
-        tag.setId(id);
-        tag = service.update(tag);
-        return ResponseEntity.ok().body(tag);
+    public ResponseEntity<TagResponse> update(@PathVariable Long id, @RequestBody TagRequest request) {
+        request.setId(id);
+        ModelMapper mapper = new ModelMapper();
+        return ResponseEntity.ok().body(mapper.map(service.update(mapper.map(request,TagDTO.class)), TagResponse.class));
     }
 
 }

@@ -1,8 +1,7 @@
 package com.myfinances.myfinances.resources.controllers;
 
-import com.myfinances.myfinances.model.entities.User;
-import com.myfinances.myfinances.resources.model.UserRequest;
-import com.myfinances.myfinances.resources.model.UserResponse;
+import com.myfinances.myfinances.resources.model.request.UserRequest;
+import com.myfinances.myfinances.resources.model.response.UserResponse;
 import com.myfinances.myfinances.services.UserService;
 import com.myfinances.myfinances.shared.UserDTO;
 import org.modelmapper.ModelMapper;

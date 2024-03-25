@@ -2,6 +2,7 @@ package com.myfinances.myfinances.config;
 
 import com.myfinances.myfinances.model.entities.*;
 import com.myfinances.myfinances.services.*;
+import com.myfinances.myfinances.shared.TagDTO;
 import com.myfinances.myfinances.shared.UserDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,10 +52,10 @@ public class TestConfig implements CommandLineRunner {
         categoryService.insert(cat3);
 
 
-        Tag tag1 = new Tag(null, "Restaurante da Tia");
-        Tag tag2 = new Tag(null, "Gasolina");
-        Tag tag3 = new Tag(null, "Restaurante do cleber");
-        Tag tag4 = new Tag(null, "Não usei essa tag");
+        TagDTO tag1 = new TagDTO(null, "Restaurante da Tia");
+        TagDTO tag2 = new TagDTO(null, "Gasolina");
+        TagDTO tag3 = new TagDTO(null, "Restaurante do cleber");
+        TagDTO tag4 = new TagDTO(null, "Não usei essa tag");
 
         tagService.insert(tag1);
         tagService.insert(tag2);
@@ -68,14 +69,14 @@ public class TestConfig implements CommandLineRunner {
         paymentMethodService.insert(pay1);
         paymentMethodService.insert(pay2);
 
-
-        Expense expense1 = new Expense(null, new ModelMapper().map(user1,User.class), cat2, pay1, 45.3, Instant.parse("2024-06-20T21:53:07Z"));
-        Expense expense2 = new Expense(null, new ModelMapper().map(user2,User.class), cat1, pay2, 70.3, Instant.parse("2024-06-20T21:53:07Z"));
-        expense1.getTags().addAll(Arrays.asList(tag1, tag2));
-        expense2.getTags().add(tag2);
-
-        expenseService.insert(expense1);
-        expenseService.insert(expense2);
+//
+//        Expense expense1 = new Expense(null, new ModelMapper().map(user1,User.class), cat2, pay1, 45.3, Instant.parse("2024-06-20T21:53:07Z"));
+//        Expense expense2 = new Expense(null, new ModelMapper().map(user2,User.class), cat1, pay2, 70.3, Instant.parse("2024-06-20T21:53:07Z"));
+//        expense1.getTags().addAll(Arrays.asList(tag1, tag2));
+//        expense2.getTags().add(tag2);
+//
+//        expenseService.insert(expense1);
+//        expenseService.insert(expense2);
 
 
         Income income = new Income(null, new ModelMapper().map(user3,User.class), cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));

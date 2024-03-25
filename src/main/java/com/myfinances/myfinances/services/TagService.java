@@ -3,11 +3,14 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.model.entities.Tag;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.TagRepository;
+import com.myfinances.myfinances.shared.TagDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
@@ -15,24 +18,28 @@ public class TagService {
     TagRepository repository;
 
 
-    public List<Tag> findAll() {
+    public List<TagDTO> findAll() {
 
-        return repository.findAll();
+        return repository.findAll()
+                .stream()
+                .map(tag -> new ModelMapper().map(tag,TagDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public Tag findById(Long id) {
+    public TagDTO findById(Long id) {
         Optional<Tag> obj = repository.findById(id);
         if (obj.isEmpty()) {
             throw new ResourceNotFoundException("Tag com o id: " + id + " Não encontrado");
         }
-        Tag tag = obj.get();
-        return tag;
+        return new ModelMapper().map(obj.get(),TagDTO.class);
     }
 
 
-    public Tag insert(Tag tag) {
-
-        return repository.save(tag);
+    public TagDTO insert(TagDTO dto) {
+        dto.setId(null);
+        Tag tag = repository.save(new ModelMapper().map(dto,Tag.class));
+        dto.setId(tag.getId());
+        return dto;
     }
 
 
@@ -44,11 +51,12 @@ public class TagService {
 
     }
 
-    public Tag update(Tag tag) {
-        if (repository.findById(tag.getId()).isEmpty()) {
-            throw new ResourceNotFoundException("Tag com id: " + tag.getId() + " Não encontrada");
+    public TagDTO update(TagDTO dto) {
+        if (repository.findById(dto.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("Tag com id: " + dto.getId() + " Não encontrada");
         }
-        return repository.save(tag);
+        repository.save(new ModelMapper().map(dto,Tag.class));
+        return dto;
     }
 
 

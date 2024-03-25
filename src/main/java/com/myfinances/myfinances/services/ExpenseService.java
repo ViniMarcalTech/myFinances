@@ -3,6 +3,7 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.model.entities.Expense;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
+import com.myfinances.myfinances.repositories.TagRepository;
 import com.myfinances.myfinances.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ExpenseService {
     CategoryService categoryService;
 
     @Autowired
-    TagService tagService;
+    TagRepository tagRepository;
     @Autowired
     PaymentMethodService paymentService;
 
@@ -71,7 +72,7 @@ public class ExpenseService {
 
 
         for (int i = 0; i < expense.getTags().size(); i++) {
-            expense.getTags().set(i, tagService.findById(expense.getTags().get(i).getId()));
+            expense.getTags().set(i, tagRepository.findById(expense.getTags().get(i).getId()).get());
         }
 
 
