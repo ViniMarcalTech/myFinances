@@ -56,9 +56,10 @@ public class TagController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<TagResponse> update(@PathVariable Long id, @RequestBody TagRequest request) {
-        request.setId(id);
         ModelMapper mapper = new ModelMapper();
-        return ResponseEntity.ok().body(mapper.map(service.update(mapper.map(request,TagDTO.class)), TagResponse.class));
+        TagDTO dto = mapper.map(request, TagDTO.class);
+        dto.setId(id);
+        return ResponseEntity.ok().body(mapper.map(service.update(dto), TagResponse.class));
     }
 
 }

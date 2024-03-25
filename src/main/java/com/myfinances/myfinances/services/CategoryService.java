@@ -1,13 +1,17 @@
 package com.myfinances.myfinances.services;
 
 import com.myfinances.myfinances.model.entities.Category;
+import com.myfinances.myfinances.model.entities.Tag;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.CategoryRepository;
+import com.myfinances.myfinances.shared.CategoryDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -16,24 +20,27 @@ public class CategoryService {
     CategoryRepository repository;
 
 
-    public List<Category> findAll() {
+    public List<CategoryDTO> findAll() {
 
-        return repository.findAll();
+        return repository.findAll().stream()
+                .map(category -> new ModelMapper().map(category, CategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public Category findById(Long id) {
+    public CategoryDTO findById(Long id) {
         Optional<Category> obj = repository.findById(id);
         if (obj.isEmpty()) {
             throw new ResourceNotFoundException("Category com o id: " + id + " Não encontrado");
         }
-        Category category = obj.get();
-        return category;
+        return new ModelMapper().map(obj.get(), CategoryDTO.class);
     }
 
 
-    public Category insert(Category category) {
-
-        return repository.save(category);
+    public CategoryDTO insert(CategoryDTO dto) {
+        dto.setId(null);
+        Category category = repository.save(new  ModelMapper().map(dto, Category.class));
+        dto.setId(category.getId());
+        return dto;
     }
 
     public void delete(Long id) {
@@ -45,12 +52,12 @@ public class CategoryService {
 
     }
 
-    public Category update(Category category) {
-        if (repository.findById(category.getId()).isEmpty()) {
-            throw new ResourceNotFoundException("Categoria com id: " +category.getId()+" Não existe");
+    public CategoryDTO update(CategoryDTO dto) {
+        if (repository.findById(dto.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("Categoria com id: " +dto.getId()+" Não existe");
         }
-
-        return repository.save(category);
+        repository.save(new ModelMapper().map(dto, Category.class));
+        return dto;
     }
 
 

@@ -1,17 +1,14 @@
 package com.myfinances.myfinances.config;
 
-import com.myfinances.myfinances.model.entities.*;
+import com.myfinances.myfinances.model.entities.PaymentMethod;
 import com.myfinances.myfinances.services.*;
+import com.myfinances.myfinances.shared.CategoryDTO;
 import com.myfinances.myfinances.shared.TagDTO;
 import com.myfinances.myfinances.shared.UserDTO;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-
-import java.time.Instant;
-import java.util.Arrays;
 
 @Configuration
 @Profile("test")
@@ -42,9 +39,9 @@ public class TestConfig implements CommandLineRunner {
         userService.insert(user3);
 
 
-        Category cat1 = new Category(null, "Alimentação", "Gastos com Alimentação");
-        Category cat2 = new Category(null, "Combustivel", "Gastos com Combustiveis");
-        Category cat3 = new Category(null, "Salario", "Dinheiro recebido");
+        CategoryDTO cat1 = new CategoryDTO(null, "Alimentação", "Gastos com Alimentação");
+        CategoryDTO cat2 = new CategoryDTO(null, "Combustivel", "Gastos com Combustiveis");
+        CategoryDTO cat3 = new CategoryDTO(null, "Salario", "Dinheiro recebido");
 
 
         categoryService.insert(cat1);
@@ -77,10 +74,10 @@ public class TestConfig implements CommandLineRunner {
 //
 //        expenseService.insert(expense1);
 //        expenseService.insert(expense2);
-
-
-        Income income = new Income(null, new ModelMapper().map(user3,User.class), cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
-        incomeRepository.insert(income);
+//
+//
+//        Income income = new Income(null, new ModelMapper().map(user3,User.class), cat3, 1500.5, Instant.parse("2024-06-20T21:53:07Z"));
+//        incomeRepository.insert(income);
 
 
     }

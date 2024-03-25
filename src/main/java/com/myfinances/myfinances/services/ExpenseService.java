@@ -2,6 +2,7 @@ package com.myfinances.myfinances.services;
 
 import com.myfinances.myfinances.model.entities.Expense;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
+import com.myfinances.myfinances.repositories.CategoryRepository;
 import com.myfinances.myfinances.repositories.ExpenseRepository;
 import com.myfinances.myfinances.repositories.TagRepository;
 import com.myfinances.myfinances.repositories.UserRepository;
@@ -20,7 +21,7 @@ public class ExpenseService {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    CategoryService categoryService;
+    CategoryRepository categoryRepository;
 
     @Autowired
     TagRepository tagRepository;
@@ -67,7 +68,7 @@ public class ExpenseService {
     private Expense validateExpense(Expense expense) {
 
         expense.setUser(userRepository.findById(expense.getUser().getId()).get());
-        expense.setCategory(categoryService.findById(expense.getCategory().getId()));
+        expense.setCategory(categoryRepository.findById(expense.getCategory().getId()).get());
         expense.setPaymentMethod(paymentService.findById(expense.getPaymentMethod().getId()));
 
 
