@@ -5,10 +5,7 @@ import com.myfinances.myfinances.model.entities.Income;
 import com.myfinances.myfinances.model.entities.PaymentMethod;
 import com.myfinances.myfinances.model.entities.User;
 import com.myfinances.myfinances.services.*;
-import com.myfinances.myfinances.shared.CategoryDTO;
-import com.myfinances.myfinances.shared.IncomeDTO;
-import com.myfinances.myfinances.shared.TagDTO;
-import com.myfinances.myfinances.shared.UserDTO;
+import com.myfinances.myfinances.shared.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -67,8 +64,8 @@ public class TestConfig implements CommandLineRunner {
         tagService.insert(tag4);
 
 
-        PaymentMethod pay1 = new PaymentMethod(null, "Cartão de Credito");
-        PaymentMethod pay2 = new PaymentMethod(null, "Dinheiro");
+        PaymentMethodDTO pay1 = new PaymentMethodDTO(null, "Cartão de Credito");
+        PaymentMethodDTO pay2 = new PaymentMethodDTO(null, "Dinheiro");
 
         paymentMethodService.insert(pay1);
         paymentMethodService.insert(pay2);

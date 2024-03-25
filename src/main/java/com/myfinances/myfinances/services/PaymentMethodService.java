@@ -3,35 +3,41 @@ package com.myfinances.myfinances.services;
 import com.myfinances.myfinances.model.entities.PaymentMethod;
 import com.myfinances.myfinances.model.exception.ResourceNotFoundException;
 import com.myfinances.myfinances.repositories.PaymentMethodRepository;
+import com.myfinances.myfinances.shared.PaymentMethodDTO;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PaymentMethodService {
     @Autowired
     PaymentMethodRepository repository;
 
-    public List<PaymentMethod> findAll() {
+    public List<PaymentMethodDTO> findAll() {
 
-        return repository.findAll();
+        return repository.findAll().stream().map(payment -> new ModelMapper()
+                .map(payment, PaymentMethodDTO.class))
+                .collect(Collectors.toList());
     }
 
-    public PaymentMethod findById(Long id) {
+    public PaymentMethodDTO findById(Long id) {
         Optional<PaymentMethod> obj = repository.findById(id);
         if (obj.isEmpty()) {
             throw new ResourceNotFoundException("PaymentMethod com o id: " + id + " Não encontrado");
         }
-        PaymentMethod payment = obj.get();
-        return payment;
+        return new ModelMapper().map(obj.get(), PaymentMethodDTO.class);
     }
 
 
-    public PaymentMethod insert(PaymentMethod payment) {
-
-        return repository.save(payment);
+    public PaymentMethodDTO insert(PaymentMethodDTO dto) {
+        dto.setId(null);
+        PaymentMethod payment = repository.save(new ModelMapper().map(dto, PaymentMethod.class));
+        dto.setId(payment.getId());
+        return dto;
 
     }
 
@@ -44,12 +50,12 @@ public class PaymentMethodService {
 
     }
 
-    public PaymentMethod update(PaymentMethod payment) {
-        if (repository.findById(payment.getId()).isEmpty()) {
-            throw new ResourceNotFoundException("PaymentMethod com id: "+payment.getId()+" Não encontrado");
+    public PaymentMethodDTO update(PaymentMethodDTO dto) {
+        if (repository.findById(dto.getId()).isEmpty()) {
+            throw new ResourceNotFoundException("PaymentMethod com id: "+dto.getId()+" Não encontrado");
         }
-
-        return repository.save(payment);
+        repository.save(new ModelMapper().map(dto,PaymentMethod.class));
+        return dto;
     }
 
 
