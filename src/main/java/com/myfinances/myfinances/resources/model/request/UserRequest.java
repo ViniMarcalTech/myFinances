@@ -2,6 +2,7 @@ package com.myfinances.myfinances.resources.model.request;
 
 public class UserRequest {
 
+    private Long id;
     private String name;
     private String email;
     private String phone;
@@ -10,13 +11,21 @@ public class UserRequest {
     public UserRequest() {
     }
 
-    public UserRequest(String name, String email, String phone, String password) {
+    public UserRequest(Long id,String name, String email, String phone, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
